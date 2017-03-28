@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Friends</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class='container'>
+        <div>
+            <div>
+                <h2>Welcome {{me.alias}}!</h2>
+            </div>
+            <div>
+                <h5><a href='/logout'>Logout</a></h5>
+            </div>
+        </div>
+        {% if friends%}
+            <h3>Here is the list of your friends:</h3>
+        {% else %}
+            <h3>You don't have friends yet:</h3>
+        {% endif %}
+        <div>
+            <div>
+                <table>
+                    <tr>
+                        <th>Alias</th>
+                        <th>Action</th>
+                    </tr>
+                        {% for friend in friends %}
+                        <tr>
+                            <td>{{friend.name}}</td>
+                            <td>
+                                <a href='/users/{{friend.id}}'><h4 class='inline'>View Profile</h4></a>
+                                <a href='/users/remove/{{friend.id}}'><h4>Remove as Friend</h4></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        </div>
+        <h3>Other Users not on your friend's list:</h3>
+        <div>
+            <div>
+                <table>
+                    <tr>
+                        <th>Alias</th>
+                        <th>Action</th>
+                    </tr>
+                        {% for user in users %}
+                        <tr>
+                            <td><a href='/users/{{user.id}}'>{{user.name}}</a></td>
+                            <td>
+                                <form action='/users/add/{{user.id}}' method='post'>
+                                    {% csrf_token %}
+                                    <input id='add' type='submit' value='Add as Friend'>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
